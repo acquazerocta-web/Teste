@@ -1,0 +1,155 @@
+:root {
+  --bg: #f4f8f7;
+  --primary: #317873;
+  --primary-dark: #255d59;
+  --text: #1f2d2b;
+  --muted: #5e6f6c;
+  --white: #ffffff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+.container {
+  width: min(1100px, 92%);
+  margin: 0 auto;
+}
+
+.hero {
+  background: linear-gradient(135deg, #dff2ef 0%, #cce9e3 45%, #f4f8f7 100%);
+  padding-bottom: 4rem;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.3rem 0;
+}
+
+.logo {
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+.hero-content {
+  padding-top: 2.5rem;
+}
+
+.tag {
+  display: inline-block;
+  background: rgba(49, 120, 115, 0.15);
+  color: var(--primary-dark);
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+}
+
+h1 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.15;
+  margin: 1rem 0;
+}
+
+h1 span { color: var(--primary); }
+
+.subtitle {
+  max-width: 680px;
+  font-size: 1.1rem;
+  color: var(--muted);
+}
+
+.actions {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-top: 1.8rem;
+}
+
+.btn {
+  background: var(--primary);
+  color: var(--white);
+  text-decoration: none;
+  border-radius: 0.6rem;
+  padding: 0.8rem 1.2rem;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.btn:hover { background: var(--primary-dark); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.btn-ghost {
+  background: #ffffff;
+  color: var(--primary-dark);
+}
+
+.section { padding: 4rem 0; }
+
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  margin-bottom: 1.2rem;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: var(--white);
+  border-radius: 1rem;
+  padding: 1.2rem;
+  box-shadow: 0 6px 18px rgba(31, 45, 43, 0.06);
+}
+
+.highlight {
+  background: #ebf5f3;
+  padding: 4rem 0;
+}
+
+.highlight-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.2rem;
+}
+
+ul { padding-left: 1.2rem; }
+
+.testimonial {
+  background: var(--white);
+  border-radius: 1rem;
+  padding: 1.2rem;
+  box-shadow: 0 8px 20px rgba(31, 45, 43, 0.08);
+  align-self: start;
+}
+
+.cta {
+  text-align: center;
+}
+
+footer {
+  border-top: 1px solid #d4e4e1;
+  padding: 1.2rem 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 800px) {
+  .highlight-grid {
+    grid-template-columns: 1fr;
+  }
+}
