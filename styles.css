@@ -1,0 +1,129 @@
+:root {
+  --bg: #0a0d15;
+  --bg-soft: #121827;
+  --text: #eef3ff;
+  --muted: #a5b0c5;
+  --primary: #85a7ff;
+  --primary-strong: #7299ff;
+  --border: #222c42;
+  --shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at top right, #1b2140 0%, var(--bg) 40%, #07090f 100%);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.app-shell {
+  width: 100%;
+  max-width: 760px;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(20, 27, 44, 0.88), rgba(13, 17, 28, 0.92));
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.6rem;
+  box-shadow: var(--shadow);
+  display: none;
+  transform: translateY(12px);
+  opacity: 0;
+  transition: all 0.35s ease;
+}
+
+.card.active {
+  display: block;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+h1, h2 { line-height: 1.25; margin-top: 0; }
+p { color: var(--muted); }
+
+.quiz-header { margin-bottom: 1rem; }
+.progress { font-size: .92rem; color: var(--muted); }
+.progress-bar {
+  margin-top: .65rem;
+  width: 100%;
+  background: #0f1526;
+  border-radius: 999px;
+  overflow: hidden;
+  height: 8px;
+}
+#progress-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #7f96ff, #9ec0ff);
+  transition: width .3s ease;
+}
+
+.options {
+  display: grid;
+  gap: .65rem;
+  margin: 1rem 0 1.25rem;
+}
+
+.option {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .9rem 1rem;
+  color: var(--text);
+  background: rgba(11, 15, 25, .65);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+
+.option:hover { border-color: var(--primary); transform: translateY(-1px); }
+.option.selected { border-color: var(--primary); background: rgba(133, 167, 255, 0.15); }
+
+button, .btn-whatsapp {
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  padding: .95rem 1.2rem;
+  cursor: pointer;
+  width: 100%;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, var(--primary), var(--primary-strong));
+  color: #091025;
+}
+.btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+.btn-secondary {
+  margin-top: .75rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.btn-whatsapp {
+  margin-top: .5rem;
+  background: #1fa464;
+  color: white;
+}
+
+.result-text { color: var(--text); font-size: 1.08rem; }
+.guidance { margin-top: .5rem; line-height: 1.6; }
+
+@media (max-width: 600px) {
+  .card { padding: 1.2rem; border-radius: 16px; }
+  h1 { font-size: 1.45rem; }
+  h2 { font-size: 1.2rem; }
+}
+
+
+.hint { display:block; margin-top:.65rem; color: var(--muted); font-size:.85rem; }
+code{color:#c9d7ff;}
