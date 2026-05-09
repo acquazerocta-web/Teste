@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz de Clareza Emocional</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <section id="start-screen" class="card active">
+      <h1>Descubra o que está drenando sua mente emocionalmente.</h1>
+      <p>Responda algumas perguntas rápidas e receba uma análise emocional.</p>
+      <button id="start-btn" class="btn-primary">Começar análise</button>
+    </section>
+
+    <section id="quiz-screen" class="card" aria-live="polite">
+      <header class="quiz-header">
+        <span id="progress" class="progress"></span>
+        <div class="progress-bar"><span id="progress-fill"></span></div>
+      </header>
+
+      <h2 id="question-text"></h2>
+      <div id="options" class="options" role="radiogroup" aria-label="Respostas"></div>
+      <button id="next-btn" class="btn-primary" disabled>Próxima</button>
+    </section>
+
+    <section id="result-screen" class="card">
+      <h2>Sua leitura emocional</h2>
+      <p id="result-text" class="result-text"></p>
+      <p id="result-guidance" class="guidance"></p>
+      <a
+        id="whatsapp-btn" class="btn-whatsapp"
+        href="https://wa.me/5500000000000?text=Olá!%20Quero%20agendar%20minha%20Sessão%20de%20Alívio%20Emocional."
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Agende sua Sessão de Alívio Emocional
+      </a>
+      <small class="hint">Dica: configure o número do WhatsApp no arquivo <code>app.js</code>.</small>
+      <button id="restart-btn" class="btn-secondary">Refazer análise</button>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
