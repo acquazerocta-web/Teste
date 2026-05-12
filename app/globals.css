@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #FAFAF8;
+  --foreground: #2C2C2C;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .section-padding {
+    @apply py-20 px-6 md:px-12 lg:px-24;
+  }
+  .container-max {
+    @apply max-w-6xl mx-auto;
+  }
+}
