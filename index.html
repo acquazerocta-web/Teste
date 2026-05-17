@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teste de Perfil DISC</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: .4rem;
+    }
+    .header p { color: #94a3b8; font-size: .95rem; }
+
+    /* ── Intro card ── */
+    #intro-screen .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 1.25rem;
+      padding: 2.5rem;
+      text-align: center;
+    }
+    #intro-screen h2 { font-size: 1.4rem; margin-bottom: 1rem; }
+    #intro-screen p { color: #94a3b8; line-height: 1.7; margin-bottom: 1.5rem; }
+
+    .disc-pills {
+      display: flex;
+      gap: .75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .disc-pill {
+      padding: .4rem 1rem;
+      border-radius: 9999px;
+      font-size: .85rem;
+      font-weight: 600;
+    }
+    .pill-d { background: #dc2626; color: #fff; }
+    .pill-i { background: #f59e0b; color: #000; }
+    .pill-s { background: #16a34a; color: #fff; }
+    .pill-c { background: #2563eb; color: #fff; }
+
+    /* ── Progress ── */
+    .progress-wrap { margin-bottom: 1.5rem; }
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: .8rem;
+      color: #64748b;
+      margin-bottom: .4rem;
+    }
+    .progress-bar {
+      height: 6px;
+      background: #1e293b;
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #6366f1, #a855f7);
+      border-radius: 9999px;
+      transition: width .4s ease;
+    }
+
+    /* ── Question card ── */
+    #quiz-screen .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 1.25rem;
+      padding: 2rem;
+    }
+
+    .question-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #f1f5f9;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .options { display: flex; flex-direction: column; gap: .75rem; }
+
+    .option {
+      background: #0f172a;
+      border: 1.5px solid #334155;
+      border-radius: .875rem;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      transition: all .2s ease;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-align: left;
+    }
+    .option:hover { border-color: #6366f1; background: #1a1f3a; transform: translateX(4px); }
+    .option.selected { border-color: #6366f1; background: #1e1b4b; }
+
+    .option-letter {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background: #1e293b;
+      border: 1.5px solid #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      transition: all .2s;
+    }
+    .option.selected .option-letter { background: #6366f1; border-color: #6366f1; color: #fff; }
+
+    .option-text { font-size: .95rem; color: #cbd5e1; line-height: 1.5; }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+      gap: 1rem;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      padding: .75rem 1.75rem;
+      border-radius: .75rem;
+      border: none;
+      font-size: .95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .btn:disabled { opacity: .4; cursor: not-allowed; }
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      color: #fff;
+      flex: 1;
+    }
+    .btn-primary:not(:disabled):hover { opacity: .88; transform: translateY(-1px); }
+    .btn-ghost {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #94a3b8;
+    }
+    .btn-ghost:hover { background: #334155; color: #e2e8f0; }
+    .btn-lg { padding: 1rem 2.5rem; font-size: 1rem; }
+
+    /* ── Result screen ── */
+    #result-screen .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 1.25rem;
+      padding: 2rem;
+    }
+
+    .result-hero {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .result-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 5rem;
+      height: 5rem;
+      border-radius: 50%;
+      font-size: 2.25rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+      box-shadow: 0 0 32px 4px currentColor;
+    }
+    .badge-d { background: #7f1d1d; color: #fca5a5; box-shadow: 0 0 24px #dc262640; }
+    .badge-i { background: #78350f; color: #fde68a; box-shadow: 0 0 24px #f59e0b40; }
+    .badge-s { background: #14532d; color: #86efac; box-shadow: 0 0 24px #16a34a40; }
+    .badge-c { background: #1e3a8a; color: #93c5fd; box-shadow: 0 0 24px #2563eb40; }
+
+    .result-hero h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: .35rem; }
+    .result-hero .tagline { color: #94a3b8; font-size: .95rem; }
+
+    /* ── Bar chart ── */
+    .chart { margin: 1.5rem 0; }
+    .chart-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: .85rem;
+    }
+    .chart-label {
+      width: 1.6rem;
+      font-weight: 700;
+      font-size: .9rem;
+      flex-shrink: 0;
+    }
+    .chart-bar-wrap {
+      flex: 1;
+      height: 1.5rem;
+      background: #0f172a;
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+    .chart-bar-fill {
+      height: 100%;
+      border-radius: 9999px;
+      transition: width 1s ease;
+    }
+    .bar-d { background: linear-gradient(90deg, #b91c1c, #ef4444); }
+    .bar-i { background: linear-gradient(90deg, #b45309, #f59e0b); }
+    .bar-s { background: linear-gradient(90deg, #15803d, #22c55e); }
+    .bar-c { background: linear-gradient(90deg, #1d4ed8, #60a5fa); }
+    .chart-pct { width: 2.5rem; text-align: right; font-size: .85rem; color: #64748b; }
+
+    /* ── Description card ── */
+    .desc-card {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 1rem;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .desc-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: .6rem; color: #f1f5f9; }
+    .desc-card ul { list-style: none; }
+    .desc-card ul li {
+      color: #94a3b8;
+      font-size: .9rem;
+      padding: .25rem 0;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+    .desc-card ul li::before { content: '→'; position: absolute; left: 0; color: #6366f1; }
+
+    .result-actions { display: flex; gap: 1rem; margin-top: 1.5rem; }
+    .result-actions .btn { flex: 1; }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header sempre visível -->
+  <div class="header">
+    <h1>Perfil Comportamental DISC</h1>
+    <p>Descubra seu estilo natural de comportamento e liderança</p>
+  </div>
+
+  <!-- ── Tela de introdução ── -->
+  <div id="intro-screen">
+    <div class="card">
+      <h2>Como funciona?</h2>
+      <p>
+        O DISC é um dos modelos comportamentais mais usados no mundo corporativo.
+        Você vai responder <strong>20 perguntas</strong> de múltipla escolha e
+        descobrir qual dos 4 perfis descreve melhor a sua forma de agir.
+      </p>
+      <div class="disc-pills">
+        <span class="disc-pill pill-d">D — Dominância</span>
+        <span class="disc-pill pill-i">I — Influência</span>
+        <span class="disc-pill pill-s">S — Estabilidade</span>
+        <span class="disc-pill pill-c">C — Conformidade</span>
+      </div>
+      <p style="margin-bottom:2rem;">
+        Responda com sinceridade — não existem respostas certas ou erradas.
+        O teste leva cerca de <strong>5 minutos</strong>.
+      </p>
+      <button class="btn btn-primary btn-lg" onclick="startQuiz()">Começar o teste</button>
+    </div>
+  </div>
+
+  <!-- ── Tela de quiz ── -->
+  <div id="quiz-screen" class="hidden">
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span id="q-counter">Pergunta 1 de 20</span>
+        <span id="q-pct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+
+    <div class="card">
+      <p class="question-text" id="question-text"></p>
+      <div class="options" id="options-container"></div>
+      <div class="nav">
+        <button class="btn btn-ghost" id="btn-back" onclick="goBack()">← Voltar</button>
+        <button class="btn btn-primary" id="btn-next" onclick="goNext()" disabled>Próxima →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tela de resultado ── -->
+  <div id="result-screen" class="hidden">
+    <div class="card">
+      <div class="result-hero">
+        <div class="result-badge" id="result-badge"></div>
+        <h2 id="result-title"></h2>
+        <p class="tagline" id="result-tagline"></p>
+      </div>
+
+      <div class="chart" id="result-chart"></div>
+
+      <div id="result-desc"></div>
+
+      <div class="result-actions">
+        <button class="btn btn-ghost" onclick="restart()">Refazer teste</button>
+        <button class="btn btn-primary" onclick="shareResult()">Copiar resultado</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    text: "Em uma reunião com ideias divergentes, você tende a:",
+    options: [
+      { text: "Defender sua posição com firmeza e direcionar o grupo para uma decisão rápida.", disc: "D" },
+      { text: "Animar o grupo, buscar consenso e manter o clima positivo.", disc: "I" },
+      { text: "Ouvir todos com paciência antes de dar sua opinião.", disc: "S" },
+      { text: "Analisar os dados e apresentar os prós e contras de cada ideia.", disc: "C" },
+    ]
+  },
+  {
+    text: "Quando precisa lidar com um prazo apertado, você:",
+    options: [
+      { text: "Foca no resultado e age com urgência, sem hesitar.", disc: "D" },
+      { text: "Mobiliza e motiva a equipe para entregar juntos.", disc: "I" },
+      { text: "Mantém a calma e trabalha de forma constante e confiável.", disc: "S" },
+      { text: "Revisa o processo para garantir que nada seja feito errado.", disc: "C" },
+    ]
+  },
+  {
+    text: "Na hora de tomar uma decisão importante, o que mais pesa para você?",
+    options: [
+      { text: "Eficiência: qual opção traz o melhor resultado mais rápido?", disc: "D" },
+      { text: "Impacto nas pessoas: como isso vai afetar o time?", disc: "I" },
+      { text: "Estabilidade: qual opção gera menos riscos e conflitos?", disc: "S" },
+      { text: "Precisão: os dados sustentam essa escolha?", disc: "C" },
+    ]
+  },
+  {
+    text: "Como você prefere receber feedback?",
+    options: [
+      { text: "Direto ao ponto, sem rodeios — só me diga o que precisa melhorar.", disc: "D" },
+      { text: "De forma motivadora, reconhecendo o esforço antes de apontar falhas.", disc: "I" },
+      { text: "Com calma e respeito, de preferência em particular.", disc: "S" },
+      { text: "Com exemplos concretos e argumentos baseados em fatos.", disc: "C" },
+    ]
+  },
+  {
+    text: "Em projetos em grupo, você costuma assumir o papel de:",
+    options: [
+      { text: "Líder — quem define o rumo e toma as decisões.", disc: "D" },
+      { text: "Animador — quem engaja, anima e conecta as pessoas.", disc: "I" },
+      { text: "Apoiador — quem garante que todos se sintam bem e o grupo funcione.", disc: "S" },
+      { text: "Especialista — quem garante a qualidade e a precisão do trabalho.", disc: "C" },
+    ]
+  },
+  {
+    text: "Quando algo dá errado, sua primeira reação é:",
+    options: [
+      { text: "Agir imediatamente para resolver o problema.", disc: "D" },
+      { text: "Conversar com o time para manter o ânimo e encontrar saídas.", disc: "I" },
+      { text: "Manter a tranquilidade e apoiar quem estiver mais afetado.", disc: "S" },
+      { text: "Investigar a causa raiz para evitar que aconteça de novo.", disc: "C" },
+    ]
+  },
+  {
+    text: "Qual dessas afirmações mais combina com você?",
+    options: [
+      { text: "Prefiro agir e ajustar depois do que ficar planejando demais.", disc: "D" },
+      { text: "Adoro conhecer gente nova e me energizo em ambientes sociais.", disc: "I" },
+      { text: "Valorizo rotinas e ambientes estáveis onde sei o que esperar.", disc: "S" },
+      { text: "Gosto de entender os detalhes antes de me comprometer com algo.", disc: "C" },
+    ]
+  },
+  {
+    text: "No ambiente de trabalho, o que mais te incomoda?",
+    options: [
+      { text: "Lentidão, indecisão e falta de autonomia.", disc: "D" },
+      { text: "Isolamento, ambientes frios e falta de reconhecimento.", disc: "I" },
+      { text: "Conflitos constantes, imprevistos e mudanças bruscas.", disc: "S" },
+      { text: "Erros, falta de rigor e processos mal definidos.", disc: "C" },
+    ]
+  },
+  {
+    text: "Como você lida com mudanças inesperadas?",
+    options: [
+      { text: "Enxergo como uma oportunidade e parto para cima.", disc: "D" },
+      { text: "Me adapto bem — novas situações me animam.", disc: "I" },
+      { text: "Preciso de um tempo para me ajustar, mas me adapto.", disc: "S" },
+      { text: "Analiso os impactos antes de aceitar qualquer mudança.", disc: "C" },
+    ]
+  },
+  {
+    text: "O que te motiva mais no trabalho?",
+    options: [
+      { text: "Alcançar metas desafiadoras e superar limites.", disc: "D" },
+      { text: "Trabalhar com pessoas que me inspiram e me reconhecem.", disc: "I" },
+      { text: "Contribuir com o time e manter um ambiente harmonioso.", disc: "S" },
+      { text: "Produzir um trabalho de alta qualidade e sem falhas.", disc: "C" },
+    ]
+  },
+  {
+    text: "Quando você precisa convencer alguém de algo, você:",
+    options: [
+      { text: "Vai direto ao ponto, mostrando resultados e benefícios claros.", disc: "D" },
+      { text: "Usa entusiasmo e constrói um relacionamento para persuadir.", disc: "I" },
+      { text: "Prefere conversas calmas, mostrando como a ideia beneficia a todos.", disc: "S" },
+      { text: "Apresenta dados, pesquisas e argumentos lógicos.", disc: "C" },
+    ]
+  },
+  {
+    text: "Em situações de pressão, você costuma:",
+    options: [
+      { text: "Ser mais assertivo e exigente — o foco é no resultado.", disc: "D" },
+      { text: "Buscar apoio emocional e compartilhar o que está sentindo.", disc: "I" },
+      { text: "Se tornar mais quieto e trabalhar de forma constante.", disc: "S" },
+      { text: "Entrar em modo analítico e buscar controle sobre cada detalhe.", disc: "C" },
+    ]
+  },
+  {
+    text: "Qual estilo de liderança você mais admira?",
+    options: [
+      { text: "O líder visionário que define o caminho e cobra resultados.", disc: "D" },
+      { text: "O líder inspirador que motiva e conecta as pessoas.", disc: "I" },
+      { text: "O líder servidor que cuida do time e cria um ambiente seguro.", disc: "S" },
+      { text: "O líder técnico que é referência pela competência e rigor.", disc: "C" },
+    ]
+  },
+  {
+    text: "Quando você começa um projeto novo, o que você faz primeiro?",
+    options: [
+      { text: "Define os objetivos e já começa a agir.", disc: "D" },
+      { text: "Compartilha a ideia com outras pessoas para ganhar energia.", disc: "I" },
+      { text: "Entende bem o escopo e garante que todos estão alinhados.", disc: "S" },
+      { text: "Pesquisa, estrutura um plano detalhado e mapeia os riscos.", disc: "C" },
+    ]
+  },
+  {
+    text: "Como você se sente em relação a regras e processos?",
+    options: [
+      { text: "Prefiro flexibilidade — regras não podem me travar.", disc: "D" },
+      { text: "São úteis, mas não podem sufocar a criatividade e a espontaneidade.", disc: "I" },
+      { text: "Me sinto seguro quando há processos claros para seguir.", disc: "S" },
+      { text: "São essenciais para garantir qualidade e consistência.", disc: "C" },
+    ]
+  },
+  {
+    text: "Em uma conversa informal, você tende a ser:",
+    options: [
+      { text: "Direto e objetivo — vai logo ao ponto.", disc: "D" },
+      { text: "Expressivo e animado — conta histórias e faz a galera rir.", disc: "I" },
+      { text: "Bom ouvinte — prefere perguntar e entender o outro.", disc: "S" },
+      { text: "Reservado — prefere conversas com profundidade e substância.", disc: "C" },
+    ]
+  },
+  {
+    text: "Como você prefere organizar seu trabalho?",
+    options: [
+      { text: "Defino prioridades e elimino o que não gera resultado.", disc: "D" },
+      { text: "De forma flexível — gosto de variedade e novas interações.", disc: "I" },
+      { text: "Com uma rotina previsível e bem definida.", disc: "S" },
+      { text: "Com um plano detalhado, listas e processos organizados.", disc: "C" },
+    ]
+  },
+  {
+    text: "O que as pessoas mais costumam elogiar em você?",
+    options: [
+      { text: "Determinação, objetividade e capacidade de fazer as coisas acontecerem.", disc: "D" },
+      { text: "Carisma, entusiasmo e habilidade de engajar as pessoas.", disc: "I" },
+      { text: "Paciência, confiabilidade e espírito de equipe.", disc: "S" },
+      { text: "Cuidado, precisão e competência técnica.", disc: "C" },
+    ]
+  },
+  {
+    text: "Quando discorda de alguém, você costuma:",
+    options: [
+      { text: "Expressar seu ponto de vista com clareza e firmeza.", disc: "D" },
+      { text: "Tentar encontrar um meio-termo e manter o clima leve.", disc: "I" },
+      { text: "Evitar o conflito direto e buscar harmonia.", disc: "S" },
+      { text: "Apresentar argumentos racionais e fatos para embasar sua posição.", disc: "C" },
+    ]
+  },
+  {
+    text: "Para você, sucesso profissional significa:",
+    options: [
+      { text: "Conquistar posições de liderança e alcançar grandes resultados.", disc: "D" },
+      { text: "Ser reconhecido, admirado e fazer parte de algo maior.", disc: "I" },
+      { text: "Ter estabilidade, contribuir com o time e manter boas relações.", disc: "S" },
+      { text: "Ser um especialista respeitado pela excelência do seu trabalho.", disc: "C" },
+    ]
+  },
+];
+
+const profiles = {
+  D: {
+    name: "Dominância",
+    emoji: "D",
+    badgeClass: "badge-d",
+    barClass: "bar-d",
+    tagline: "Orientado a resultados, direto e decidido",
+    strengths: ["Tomada de decisão rápida e assertiva", "Alta capacidade de liderança e influência", "Foco intenso em resultados e metas", "Proatividade e espírito empreendedor"],
+    challenges: ["Pode parecer impaciente ou inflexível", "Tende a centralizar decisões", "Pode negligenciar o lado emocional do time", "Dificuldade em ouvir perspectivas diferentes"],
+    tip: "Seu maior superpoder é fazer as coisas acontecerem. Canalizar essa energia com empatia pode transformar equipes inteiras."
+  },
+  I: {
+    name: "Influência",
+    emoji: "I",
+    badgeClass: "badge-i",
+    barClass: "bar-i",
+    tagline: "Entusiasta, comunicativo e inspirador",
+    strengths: ["Habilidade natural de engajar e motivar pessoas", "Criatividade e abertura a novas ideias", "Comunicação expressiva e persuasiva", "Capacidade de criar um clima positivo"],
+    challenges: ["Pode ter dificuldade com tarefas repetitivas e de detalhe", "Tende a se dispersar com muitas ideias ao mesmo tempo", "Pode evitar feedbacks negativos e conflitos", "Organização e cumprimento de prazos pode ser um desafio"],
+    tip: "Seu carisma é um ativo valioso. Aprender a transformar entusiasmo em execução consistente é o próximo nível."
+  },
+  S: {
+    name: "Estabilidade",
+    emoji: "S",
+    badgeClass: "badge-s",
+    barClass: "bar-s",
+    tagline: "Confiável, paciente e colaborativo",
+    strengths: ["Pilar de estabilidade e confiança para o time", "Excelente capacidade de escuta e empatia", "Constância e comprometimento de longo prazo", "Habilidade de mediar conflitos com calma"],
+    challenges: ["Pode resistir a mudanças e novidades", "Dificuldade em dizer não ou se impor", "Tende a adiar decisões difíceis", "Pode sacrificar as próprias necessidades pelo grupo"],
+    tip: "Sua confiabilidade é um tesouro raro. Desenvolver assertividade vai ampliar ainda mais seu impacto."
+  },
+  C: {
+    name: "Conformidade",
+    emoji: "C",
+    badgeClass: "badge-c",
+    barClass: "bar-c",
+    tagline: "Analítico, preciso e orientado a qualidade",
+    strengths: ["Pensamento crítico e analítico apurado", "Alta capacidade de planejamento e organização", "Atenção aos detalhes e aos riscos", "Comprometimento com qualidade e precisão"],
+    challenges: ["Pode ser perfeccionista ao ponto de travar", "Tende a ter dificuldade com ambiguidade e incerteza", "Pode ser percebido como distante ou excessivamente crítico", "Lentidão para decidir quando faltam dados suficientes"],
+    tip: "Sua precisão eleva o nível de tudo que toca. Aprender a agir com dados \"bons o suficiente\" desbloqueará velocidade sem perder qualidade."
+  }
+};
+
+let current = 0;
+let answers = new Array(questions.length).fill(null);
+
+function shuffleOptions(q) {
+  return [...q.options].sort(() => Math.random() - 0.5);
+}
+
+const shuffled = questions.map(q => ({ text: q.text, options: shuffleOptions(q) }));
+
+function startQuiz() {
+  document.getElementById('intro-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = shuffled[current];
+  document.getElementById('question-text').textContent = q.text;
+
+  const container = document.getElementById('options-container');
+  container.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+
+  q.options.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option' + (answers[current] === opt.disc ? ' selected' : '');
+    div.onclick = () => selectOption(div, opt.disc);
+    div.innerHTML = `
+      <div class="option-letter">${letters[i]}</div>
+      <div class="option-text">${opt.text}</div>
+    `;
+    container.appendChild(div);
+  });
+
+  const pct = Math.round((current / questions.length) * 100);
+  document.getElementById('q-counter').textContent = `Pergunta ${current + 1} de ${questions.length}`;
+  document.getElementById('q-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  document.getElementById('btn-back').disabled = current === 0;
+  document.getElementById('btn-next').disabled = answers[current] === null;
+
+  const btnNext = document.getElementById('btn-next');
+  btnNext.textContent = current === questions.length - 1 ? 'Ver resultado ✓' : 'Próxima →';
+}
+
+function selectOption(el, disc) {
+  document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  answers[current] = disc;
+  document.getElementById('btn-next').disabled = false;
+}
+
+function goNext() {
+  if (current < questions.length - 1) {
+    current++;
+    renderQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function goBack() {
+  if (current > 0) {
+    current--;
+    renderQuestion();
+  }
+}
+
+function showResult() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+
+  const scores = { D: 0, I: 0, S: 0, C: 0 };
+  answers.forEach(a => { if (a) scores[a]++; });
+  const total = Object.values(scores).reduce((a, b) => a + b, 0);
+
+  const dominant = Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0];
+  const profile = profiles[dominant];
+
+  document.getElementById('result-badge').textContent = profile.emoji;
+  document.getElementById('result-badge').className = 'result-badge ' + profile.badgeClass;
+  document.getElementById('result-title').textContent = 'Perfil ' + profile.name;
+  document.getElementById('result-tagline').textContent = profile.tagline;
+
+  // Chart
+  const chartEl = document.getElementById('result-chart');
+  chartEl.innerHTML = '';
+  const order = ['D', 'I', 'S', 'C'];
+  order.forEach(key => {
+    const pct = Math.round((scores[key] / total) * 100);
+    const p = profiles[key];
+    const row = document.createElement('div');
+    row.className = 'chart-row';
+    row.innerHTML = `
+      <div class="chart-label ${key === dominant ? '' : ''}" style="color:${key==='D'?'#f87171':key==='I'?'#fbbf24':key==='S'?'#4ade80':'#60a5fa'}">${key}</div>
+      <div class="chart-bar-wrap">
+        <div class="chart-bar-fill ${p.barClass}" style="width:0%" data-target="${pct}%"></div>
+      </div>
+      <div class="chart-pct">${pct}%</div>
+    `;
+    chartEl.appendChild(row);
+  });
+
+  setTimeout(() => {
+    document.querySelectorAll('.chart-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.target;
+    });
+  }, 100);
+
+  // Description
+  const descEl = document.getElementById('result-desc');
+  descEl.innerHTML = `
+    <div class="desc-card">
+      <h3>Pontos fortes</h3>
+      <ul>${profile.strengths.map(s => `<li>${s}</li>`).join('')}</ul>
+    </div>
+    <div class="desc-card">
+      <h3>Pontos de atenção</h3>
+      <ul>${profile.challenges.map(c => `<li>${c}</li>`).join('')}</ul>
+    </div>
+    <div class="desc-card">
+      <h3>Dica de desenvolvimento</h3>
+      <ul><li>${profile.tip}</li></ul>
+    </div>
+  `;
+
+  window._resultText = `Meu perfil DISC: ${profile.name} (${dominant}) — ${profile.tagline}\nPontuações: D=${scores.D} I=${scores.I} S=${scores.S} C=${scores.C}`;
+}
+
+function shareResult() {
+  if (navigator.clipboard && window._resultText) {
+    navigator.clipboard.writeText(window._resultText).then(() => {
+      const btn = document.querySelector('.result-actions .btn-primary');
+      btn.textContent = 'Copiado!';
+      setTimeout(() => btn.textContent = 'Copiar resultado', 2000);
+    });
+  }
+}
+
+function restart() {
+  current = 0;
+  answers = new Array(questions.length).fill(null);
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  renderQuestion();
+}
+</script>
+</body>
+</html>
